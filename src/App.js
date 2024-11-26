@@ -26,10 +26,26 @@ const App = () => {
   const baladPlaceId = '6IwGfi1gtDSSVG';
 
   const navigationLinks = {
+    waze: `waze://?ll=${latitude},${longitude}&navigate=yes`,
+    googleMaps: `comgooglemaps://?daddr=${latitude},${longitude}&directionsmode=driving`,
+    neshan: `https://neshan.org/maps/places/${neshanPlaceId}#c${latitude}-${longitude}-15z-0p`,
+    balad: `https://balad.ir/p/${baladPlaceId}?preview=true#15/${latitude}/${longitude}`,
+  };
+
+  const fallbackLinks = {
     waze: `https://waze.com/ul?ll=${latitude},${longitude}&navigate=yes`,
     googleMaps: `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`,
     neshan: `https://neshan.org/maps/places/${neshanPlaceId}#c${latitude}-${longitude}-15z-0p`,
     balad: `https://balad.ir/p/${baladPlaceId}?preview=true#15/${latitude}/${longitude}`,
+  };
+
+  const handleNavigation = (app) => {
+    const scheme = navigationLinks[app];
+    const fallback = fallbackLinks[app];
+    window.location.href = scheme;
+    setTimeout(() => {
+      window.open(fallback, '_blank');
+    }, 500);
   };
 
   const iconStyle = {
@@ -42,7 +58,8 @@ const App = () => {
     textDecoration: 'none',
     textAlign: 'center',
     color: '#A88969',
-    maxWidth: '50px'
+    maxWidth: '50px',
+    cursor: 'pointer'
   };
 
   const imgStyle = {
@@ -84,6 +101,32 @@ const App = () => {
               <Marker position={[latitude, longitude]}>
                 <Popup>
                   باغ نیکان <br /> تهران
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
+                      gap: '10px',
+                      marginTop: '10px',
+                    }}
+                  >
+                    <div onClick={() => handleNavigation('googleMaps')} style={iconStyle}>
+                      <img src={GoogleMap} alt="Google Maps" style={imgStyle} />
+                      <span>Google Maps</span>
+                    </div>
+                    <div onClick={() => handleNavigation('waze')} style={iconStyle}>
+                      <img src={Waze} alt="Waze" style={imgStyle} />
+                      <span>Waze</span>
+                    </div>
+                    <a href={navigationLinks.neshan} target="_blank" rel="noopener noreferrer" style={iconStyle}>
+                      <img src={Neshan} alt="نشان" style={imgStyle} />
+                      <span>نشان</span>
+                    </a>
+                    <a href={navigationLinks.balad} target="_blank" rel="noopener noreferrer" style={iconStyle}>
+                      <img src={Balad} alt="بلد" style={imgStyle} />
+                      <span>بلد</span>
+                    </a>
+                  </div>
                 </Popup>
               </Marker>
             </MapContainer>
@@ -97,65 +140,25 @@ const App = () => {
                 padding: '0 10px'
               }}
             >
-              <a
-                href={navigationLinks.googleMaps}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={iconStyle}
-              >
-                <img
-                  src={GoogleMap}
-                  alt="Google Maps"
-                  style={imgStyle}
-                />
+              <div onClick={() => handleNavigation('googleMaps')} style={iconStyle}>
+                <img src={GoogleMap} alt="Google Maps" style={imgStyle} />
                 <span>Google Maps</span>
-              </a>
-              <a
-                href={navigationLinks.waze}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={iconStyle}
-              >
-                <img
-                  src={Waze}
-                  alt="Waze"
-                  style={imgStyle}
-                />
+              </div>
+              <div onClick={() => handleNavigation('waze')} style={iconStyle}>
+                <img src={Waze} alt="Waze" style={imgStyle} />
                 <span>Waze</span>
-              </a>
-              <a
-                href={navigationLinks.neshan}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={iconStyle}
-              >
-                <img
-                  src={Neshan}
-                  alt="نشان"
-                  style={imgStyle}
-                />
+              </div>
+              <a href={navigationLinks.neshan} target="_blank" rel="noopener noreferrer" style={iconStyle}>
+                <img src={Neshan} alt="نشان" style={imgStyle} />
                 <span>نشان</span>
               </a>
-              <a
-                href={navigationLinks.balad}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={iconStyle}
-              >
-                <img
-                  src={Balad}
-                  alt="بلد"
-                  style={imgStyle}
-                />
+              <a href={navigationLinks.balad} target="_blank" rel="noopener noreferrer" style={iconStyle}>
+                <img src={Balad} alt="بلد" style={imgStyle} />
                 <span>بلد</span>
               </a>
             </div>
           </div>
-          <img
-            src={FooterImg}
-            style={{ margin: 'auto', display: 'flex' }}
-            alt="Footer"
-          />
+          <img src={FooterImg} style={{ margin: 'auto', display: 'flex' }} alt="Footer" />
         </section>
       </div>
     </div>

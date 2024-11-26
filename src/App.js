@@ -6,7 +6,7 @@ import FooterImg from './img/footer.png';
 import GoogleMap from './icons/google-maps.png';
 import Waze from './icons/waze.png';
 import Balad from './icons/balad.svg';
-import Neshan from './icons/neshan.svg';
+import Neshan from './icons/neshan.png';
 import './App.css';
 import 'leaflet/dist/leaflet.css';
 
@@ -22,12 +22,34 @@ const App = () => {
   const latitude = 35.72186586;
   const longitude = 51.83659673;
 
-  // لینک‌های مسیریابی
+  const neshanPlaceId = '5afc48644f94982b2036d1166958b109';
+  const baladPlaceId = '6IwGfi1gtDSSVG';
+
   const navigationLinks = {
     waze: `https://waze.com/ul?ll=${latitude},${longitude}&navigate=yes`,
     googleMaps: `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`,
-    neshan: `https://nshn.ir/geo:${latitude},${longitude}`,
-    balad: `https://balad.ir/route?destination=${latitude},${longitude}`,
+    neshan: `https://neshan.org/maps/places/${neshanPlaceId}#c${latitude}-${longitude}-15z-0p`,
+    balad: `https://balad.ir/p/${baladPlaceId}?preview=true#15/${latitude}/${longitude}`,
+  };
+
+  const iconStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'start',
+    alignItems: 'center',
+    alignContent: 'center',
+    gap: '10px',
+    textDecoration: 'none',
+    textAlign: 'center',
+    color: '#A88969',
+    maxWidth: '50px'
+  };
+
+  const imgStyle = {
+    width: '50px',
+    height: '50px',
+    marginBottom: '5px',
+    objectFit: 'contain',
   };
 
   return (
@@ -72,33 +94,19 @@ const App = () => {
                 justifyContent: 'space-around',
                 gap: '20px',
                 marginTop: '15px',
+                padding: '0 10px'
               }}
             >
               <a
                 href={navigationLinks.googleMaps}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'start',
-                  alignItems: 'center',
-                  alignContent: 'center',
-                  gap: '10px',
-                  textDecoration: 'none',
-                  textAlign: 'center',
-                  color: '#A88969',
-                }}
+                style={iconStyle}
               >
                 <img
                   src={GoogleMap}
                   alt="Google Maps"
-                  style={{
-                    width: '50px',
-                    height: '50px',
-                    marginBottom: '5px',
-                    objectFit: 'contain',
-                  }}
+                  style={imgStyle}
                 />
                 <span>Google Maps</span>
               </a>
@@ -106,27 +114,12 @@ const App = () => {
                 href={navigationLinks.waze}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'start',
-                  alignItems: 'center',
-                  alignContent: 'center',
-                  gap: '10px',
-                  textDecoration: 'none',
-                  textAlign: 'center',
-                  color: '#A88969',
-                }}
+                style={iconStyle}
               >
                 <img
                   src={Waze}
                   alt="Waze"
-                  style={{
-                    width: '50px',
-                    height: '50px',
-                    marginBottom: '5px',
-                    objectFit: 'contain',
-                  }}
+                  style={imgStyle}
                 />
                 <span>Waze</span>
               </a>
@@ -134,27 +127,12 @@ const App = () => {
                 href={navigationLinks.neshan}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'start',
-                  alignItems: 'center',
-                  alignContent: 'center',
-                  gap: '10px',
-                  textDecoration: 'none',
-                  textAlign: 'center',
-                  color: '#A88969',
-                }}
+                style={iconStyle}
               >
                 <img
                   src={Neshan}
-                  alt="Neshan"
-                  style={{
-                    width: '50px',
-                    height: '50px',
-                    marginBottom: '5px',
-                    objectFit: 'contain',
-                  }}
+                  alt="نشان"
+                  style={imgStyle}
                 />
                 <span>نشان</span>
               </a>
@@ -162,27 +140,12 @@ const App = () => {
                 href={navigationLinks.balad}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'start',
-                  alignItems: 'center',
-                  alignContent: 'center',
-                  gap: '10px',
-                  textDecoration: 'none',
-                  textAlign: 'center',
-                  color: '#A88969',
-                }}
+                style={iconStyle}
               >
                 <img
                   src={Balad}
-                  alt="Balad"
-                  style={{
-                    width: '50px',
-                    height: '50px',
-                    marginBottom: '5px',
-                    objectFit: 'contain',
-                  }}
+                  alt="بلد"
+                  style={imgStyle}
                 />
                 <span>بلد</span>
               </a>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import wedVideo from './vid/video.mp4';
 import FooterImg from './img/footer.png';
 import GoogleMap from './icons/google-maps.png';
 import Waze from './icons/waze.png';
@@ -144,7 +143,16 @@ const App = () => {
       <div className="background">
         <section className="content">
           <div className="video-section" ref={videoSectionRef}>
-            <video src={wedVideo} controls autoPlay loop playsInline />
+          <video
+  src="/vid/video.webm"
+  controls
+  autoPlay
+  loop
+  playsInline
+  preload="metadata"
+  loading="lazy"
+/>
+
           </div>
           <div ref={contentSectionRef}>
             <div className="address-section">

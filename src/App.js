@@ -144,7 +144,7 @@ const App = () => {
       <div className="background">
         <section className="content">
           <div className="video-section" ref={videoSectionRef}>
-            <video src={wedVideo} controls autoPlay loop playsInline muted />
+            <video src={wedVideo} controls autoPlay loop playsInline />
           </div>
           <div ref={contentSectionRef}>
             <div className="address-section">

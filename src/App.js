@@ -25,8 +25,8 @@ const App = () => {
   const baladPlaceId = '6IwGfi1gtDSSVG';
 
   const navigationLinks = {
+    googleMaps: `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}&travelmode=driving`,
     waze: `waze://?ll=${latitude},${longitude}&navigate=yes`,
-    googleMaps: `comgooglemaps://?daddr=${latitude},${longitude}&directionsmode=driving`,
     neshan: `https://neshan.org/maps/places/${neshanPlaceId}#c${latitude}-${longitude}-15z-0p`,
     balad: `https://balad.ir/p/${baladPlaceId}?preview=true#15/${latitude}/${longitude}`,
   };
@@ -58,7 +58,21 @@ const App = () => {
   };
 
   const videoSectionRef = useRef(null);
+  const videoRef = useRef(null); // Ref برای ویدیو
   const contentSectionRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const handlePlay = () => setIsPlaying(true);
+  const handlePause = () => setIsPlaying(false);
+
+  // پخش خودکار بعد از لود شدن ویدیو
+  const handleVideoLoaded = () => {
+    if (videoRef.current) {
+      videoRef.current.play().catch((error) => {
+        console.error("Autoplay was prevented:", error);
+      });
+    }
+  };
 
   const ScrollButton = () => {
     const [isAtTop, setIsAtTop] = useState(true);
@@ -142,17 +156,38 @@ const App = () => {
     <div className="App">
       <div className="background">
         <section className="content">
-          <div className="video-section" ref={videoSectionRef}>
-          <video
-  src="/vid/video.webm"
-  controls
-  autoPlay
-  loop
-  playsInline
-  preload="metadata"
-  loading="lazy"
-/>
-
+          <div className="video-section" ref={videoSectionRef} style={{ position: 'relative', width: '100%' }}>
+            <video
+              src="/vid/video.webm"
+              controls
+              loop
+              playsInline
+              preload="metadata"
+              poster="/img/video-poster.jpeg"
+              style={{
+                width: '100%',
+                height: 'auto',
+                objectFit: 'cover',
+                backgroundColor: '#000',
+              }}
+              ref={videoRef}
+              onPlay={handlePlay}
+              onPause={handlePause}
+              onLoadedData={handleVideoLoaded} // رویداد لود شدن ویدیو
+            />
+            {!isPlaying && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0))',
+                  pointerEvents: 'none',
+                }}
+              />
+            )}
           </div>
           <div ref={contentSectionRef}>
             <div className="address-section">
@@ -186,37 +221,11 @@ const App = () => {
                   attribution="&copy; OpenStreetMap contributors"
                 />
                 <Marker position={[latitude, longitude]}>
-                  <Popup>
-                    باغ نیکان <br /> تهران
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                        gap: '10px',
-                        marginTop: '10px',
-                      }}
-                    >
-                      <div onClick={() => handleNavigation('googleMaps')} style={iconStyle}>
-                        <img src={GoogleMap} alt="Google Maps" style={imgStyle} />
-                        <span>Google Maps</span>
-                      </div>
-                      <div onClick={() => handleNavigation('waze')} style={iconStyle}>
-                        <img src={Waze} alt="Waze" style={imgStyle} />
-                        <span>Waze</span>
-                      </div>
-                      <div onClick={() => handleNavigation('neshan')} style={iconStyle}>
-                        <img src={Neshan} alt="نشان" style={imgStyle} />
-                        <span>نشان</span>
-                      </div>
-                      <div onClick={() => handleNavigation('balad')} style={iconStyle}>
-                        <img src={Balad} alt="بلد" style={imgStyle} />
-                        <span>بلد</span>
-                      </div>
-                    </div>
-                  </Popup>
+                  <Popup>باغ نیکان</Popup>
                 </Marker>
               </MapContainer>
+
+              {/* لینک‌ها زیر نقشه */}
               <div
                 style={{
                   display: 'flex',
